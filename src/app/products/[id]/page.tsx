@@ -3,14 +3,13 @@ import { ProductsType } from "@/types";
 import ProductInteraction from "@/components/ProductInteraction";
 import { products } from "@/components/ProductList";
 
-const ProductPage = async ({
-  params,
-  searchParams,
-}: {
+// 🧠 infer proper Next.js types automatically
+interface PageProps {
   params: Promise<{ id: string }>;
   searchParams?: Promise<{ color?: string; size?: string }>;
-}) => {
-  // ✅ both params and searchParams need to be awaited
+}
+
+const ProductPage = async ({ params, searchParams }: PageProps) => {
   const { id } = await params;
   const query = (await searchParams) ?? {};
 
@@ -18,7 +17,6 @@ const ProductPage = async ({
   if (!product) {
     return <div className="p-12">Product not found</div>;
   }
-
 
   const selectedSize = query.size || product.sizes[0];
   const selectedColor = query.color || product.colors[0];
