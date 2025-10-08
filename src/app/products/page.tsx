@@ -1,14 +1,16 @@
 import ProductList from "@/components/ProductList";
 
-const ProductsPage = ({
-  searchParams,
-}: {
-  searchParams: { category?: string };
-}) => {
-  const category = searchParams?.category || "all"; // fallback if needed
+interface ProductsPageProps {
+  searchParams?: Promise<{ category?: string }>;
+}
+
+const ProductsPage = async ({ searchParams }: ProductsPageProps) => {
+  // ✅ Await it
+  const query = (await searchParams) ?? {};
+  const category = query.category || "";
 
   return (
-    <div className="">
+    <div className="px-6 md:px-12 lg:px-20">
       <ProductList category={category} params="products" />
     </div>
   );
